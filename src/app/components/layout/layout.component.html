@@ -1,0 +1,23 @@
+<div class="wrapper">
+
+  <header>
+    <section class="sm-user-section">
+      <img src="../../../assets/icons/icon-menu.svg" alt="Menu" width="24" height="24">
+    </section>
+    <section>
+      <span class="title">Angular Boilerplate</span>
+    </section>
+    <section class="la-user-section">
+      <button class="primary" (click)="goToSignup()">Create Account</button>
+      <button (click)="goToSignin()">Log In</button>
+    </section>
+  </header>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer>
+  </footer>
+
+</div>
