@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { UserHttpService } from 'src/app/services/user.service';
+import { AuthStore } from '../../storemanagement/auth.store';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserHttpService,
+    private authService: AuthStore,
     private router: Router,
   ) { }
 
@@ -24,19 +24,17 @@ export class SignInComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
     });
+
+    this.authService.getError.subscribe(error => {
+      if (error) {
+        this.error = true;
+      }
+    });
   }
 
   async signIn() {
-    console.log(this.signInForm.value);
     if (this.signInForm.valid) {
-      try {
-        const response = await this.userService.signIn(this.signInForm.value.email, this.signInForm.value.password);
-        this.error = false;
-        console.log('Login response:', response);
-      } catch (error) {
-        console.log('Could not sign in');
-        this.error = true;
-      }
+      await this.authService.signIn(this.signInForm.value.email, this.signInForm.value.password);
     } else {
       this.error = true;
     }
